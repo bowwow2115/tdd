@@ -1,6 +1,7 @@
 package com.luv2code.junitdemo;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -16,6 +17,7 @@ class DemoUtilsTest {
     }
 
     @Test
+    @DisplayName("Equals and Not Equals")
     void tesetEqualsAndNotEquals() {
 
         System.out.println("Running test: tesetEqualsAndNotEquals");
@@ -25,6 +27,7 @@ class DemoUtilsTest {
     }
 
     @Test
+    @DisplayName("Null and Not Null")
     void testNullAndNotNull() {
 
         System.out.println("Running test: testNullAndNotNull");
