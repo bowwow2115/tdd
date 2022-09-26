@@ -4,6 +4,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class DemoUtilsTest {
@@ -34,5 +36,34 @@ class DemoUtilsTest {
 
         assertNull(demoUtils.checkNull(null));
         assertNotNull(demoUtils.checkNull("notNull"));
+    }
+
+    @DisplayName("Same and Not Same")
+    @Test
+    void testSameAndNotSame() {
+        String str = "hello";
+        assertSame(demoUtils.getAcademy(), demoUtils.getAcademyDuplicate());
+        assertNotSame(str, demoUtils.getAcademy());
+    }
+
+    @DisplayName("True and False")
+    @Test
+    void testTrueFalse() {
+        int gradeOne = 10;
+        int gradeTwo = 5;
+
+        assertTrue(demoUtils.isGreater(gradeOne, gradeTwo));
+        assertFalse(demoUtils.isGreater(gradeTwo, gradeOne));
+    }
+
+    void testArrayEquals() {
+        String[] stingArray = {"A", "B", "C"};
+
+        assertArrayEquals(stingArray, demoUtils.getFirstThreeLettersOfAlphabet());
+    }
+
+    void testIterableEquals() {
+        List<String> theList = List.of("luv", "2", "code");
+        assertIterableEquals(theList, demoUtils.getAcademyInList());
     }
 }
