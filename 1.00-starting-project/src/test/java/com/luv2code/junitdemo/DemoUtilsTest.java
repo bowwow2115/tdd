@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.time.Duration;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -65,5 +66,11 @@ class DemoUtilsTest {
     void testIterableEquals() {
         List<String> theList = List.of("luv", "2", "code");
         assertIterableEquals(theList, demoUtils.getAcademyInList());
+    }
+
+    @Test
+    void testTimeout() {
+        assertTimeoutPreemptively(Duration.ofSeconds(3), () -> { demoUtils.checkTimeout(); },
+                "Method should execute in 3 seconds");
     }
 }
