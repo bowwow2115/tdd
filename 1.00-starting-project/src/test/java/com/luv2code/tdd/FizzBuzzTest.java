@@ -1,6 +1,8 @@
 package com.luv2code.tdd;
 
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvFileSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -39,12 +41,38 @@ class FizzBuzzTest {
 
     @DisplayName("Not Divisible by Five and Five")
     @Test
-    @Order(3)
+    @Order(4)
     void testForNotDivisibleByThreeAndFive() {
 
         String expected = "1";
 
         assertEquals(expected, FizzBuzz.compute(1));
+    }
+
+    @DisplayName("small CSV Test")
+    @ParameterizedTest(name = "value={0}, expected={1}")
+    @CsvFileSource(resources = "/small-test-data.csv")
+    @Order(5)
+    void testSmallCsvTest(int value, String expected) {
+
+        assertEquals(expected, FizzBuzz.compute(value));
+    }
+
+    @DisplayName("medium CSV Test")
+    @ParameterizedTest(name = "value={0}, expected={1}")
+    @CsvFileSource(resources = "/medium-test-data.csv")
+    @Order(5)
+    void testMediumCsvTest(int value, String expected) {
+
+        assertEquals(expected, FizzBuzz.compute(value));
+    }
+    @DisplayName("large CSV Test")
+    @ParameterizedTest(name = "value={0}, expected={1}")
+    @CsvFileSource(resources = "/large-test-data.csv")
+    @Order(7)
+    void testLageCsvTest(int value, String expected) {
+
+        assertEquals(expected, FizzBuzz.compute(value));
     }
 
 }
