@@ -12,12 +12,10 @@ public class GradebookController {
 	@Autowired
 	private Gradebook gradebook;
 
-
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String getStudents(Model m) {
 		return "index";
 	}
-
 
 	@GetMapping("/studentInformation/{id}")
 		public String studentInformation(@PathVariable int id, Model m) {
