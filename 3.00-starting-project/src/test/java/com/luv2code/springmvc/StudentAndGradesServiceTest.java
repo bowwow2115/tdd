@@ -13,6 +13,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.TestPropertySource;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @TestPropertySource("/application.properties")
@@ -41,12 +45,11 @@ public class StudentAndGradesServiceTest {
 
     @Test
     public void createStudentService() {
+        studentService.createStudent("SeungHun", "Park", "bowwow0@naver.com");
 
-        studentService.createStudent("SeungHun", "Park", "bowwow12@naver.com");
+        CollegeStudent student = studentDao.findByEmailAddress("bowwow0@naver.com");
 
-        CollegeStudent student = studentDao.findByEmailAddress("bowwow12@naver.com");
-
-        assertEquals("bowwow12@naver.com", student.getEmailAddress());
+        assertEquals("bowwow0@naver.com", student.getEmailAddress());
     }
 
     @Test
@@ -54,4 +57,32 @@ public class StudentAndGradesServiceTest {
         assertTrue(studentService.checkIfStudentIsNull(1));
         assertFalse(studentService.checkIfStudentIsNull(0));
     }
+
+    @Test
+    public void deleteStudentService() {
+        Optional<CollegeStudent> deletedCollegeStudent = studentDao.findById(1);
+
+        assertTrue(deletedCollegeStudent.isPresent());
+
+        studentService.deleteStudent(1);
+
+        deletedCollegeStudent = studentDao.findById(1);
+
+        assertFalse(deletedCollegeStudent.isPresent());
+    }
+
+    @Test
+    public void getGradebookService() {
+
+        Iterable<CollegeStudent> iterableCollegeStudent = studentService.getGradebook();
+
+        List<CollegeStudent> collegeStudents = new ArrayList<>();
+
+        for(CollegeStudent collegeStudent : iterableCollegeStudent) {
+            collegeStudents.add(collegeStudent);
+        }
+
+        assertEquals(1, collegeStudents.size());
+    }
+
 }
