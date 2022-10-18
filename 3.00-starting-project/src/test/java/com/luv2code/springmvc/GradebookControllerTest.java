@@ -2,6 +2,8 @@ package com.luv2code.springmvc;
 
 import com.luv2code.springmvc.models.CollegeStudent;
 import com.luv2code.springmvc.models.GradebookCollegeStudent;
+import com.luv2code.springmvc.models.Student;
+import com.luv2code.springmvc.repository.StudentDao;
 import com.luv2code.springmvc.service.StudentAndGradeService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -43,6 +45,9 @@ public class GradebookControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
+    @Autowired
+    private StudentDao studentDao;
+
     @Mock
     private StudentAndGradeService studentAndGradeServiceMock;
 
@@ -51,7 +56,7 @@ public class GradebookControllerTest {
         request = new MockHttpServletRequest();
         request.setParameter("firstname", "SH");
         request.setParameter("lastname", "Park");
-        request.setParameter("email_address", "bowwow12@naver.com");
+        request.setParameter("emailAddress", "bowwow2115@naver.com");
     }
 
     @BeforeEach
@@ -85,6 +90,16 @@ public class GradebookControllerTest {
 
     @Test
     public void createStudentHttpRequest() throws Exception {
+
+        CollegeStudent studentOne = new CollegeStudent("SeungHun",
+                "Park", "bowwow2115@gmail.com");
+
+        List<CollegeStudent> collegeStudentList = new ArrayList<>(Arrays.asList(studentOne));
+
+        when(studentAndGradeServiceMock.getGradebook()).thenReturn(collegeStudentList);
+
+        assertIterableEquals(collegeStudentList, studentAndGradeServiceMock.getGradebook());
+
         MvcResult mvcResult = this.mockMvc.perform(post("/")
                 .contentType(MediaType.APPLICATION_JSON)
                 .param("firstname", request.getParameter("firstname"))
@@ -92,6 +107,13 @@ public class GradebookControllerTest {
                 .param("emailAddress", request.getParameter("emailAddress")))
                 .andExpect(status().isOk()).andReturn();
 
+        ModelAndView mav = mvcResult.getModelAndView();
+
+        ModelAndViewAssert.assertViewName(mav, "index");
+
+        CollegeStudent verifyStudent = studentDao.findByEmailAddress("bowwow12@naver.com");
+
+        assertNotNull(verifyStudent, "Student should be found");
     }
 
     @AfterEach
